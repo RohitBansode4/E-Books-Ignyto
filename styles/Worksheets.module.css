@@ -1,0 +1,310 @@
+/* General Styles */
+.librarySection {
+  padding: 20px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  height: 100vh;
+}
+
+.pageWrapper {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2b2b2b;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #777;
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.text-danger {
+  color: #d9534f;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+/* Subtopics Section */
+.subtopicsContainer {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subtopicsHeading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.subtopicsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.subtopicItem {
+  background-color: #fff;
+  border: 2px solid #eee;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subtopicItem:hover {
+  background-color: #007bff;
+  color: #fff;
+  transform: scale(1.05);
+  border-color: #007bff;
+}
+
+.subtopicItem:active {
+  transform: scale(0.98);
+}
+
+/* Worksheets List */
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Adding depth on hover */
+}
+
+.cardHeader {
+  position: relative;
+  text-align: center;
+}
+
+.cardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 10px 15px;
+  color: #2b2b2b;
+  transition: color 0.3s ease;
+}
+
+.cardTitle:hover {
+  color: #007bff; /* Hover color for the title */
+}
+
+.cardSubtitle {
+  font-size: 1rem;
+  padding: 0 15px 10px;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.cardSubtitle:hover {
+  color: #007bff; /* Hover color for the subtitle */
+}
+
+.cardButton {
+  background-color: #6c78e8;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 25px;
+  margin: 15px auto 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  width: auto;
+  transition: background-color 0.3s ease;
+}
+
+.cardButton:hover {
+  background-color: #4e5ac4;
+}
+
+.cardLink {
+  text-decoration: none;
+}
+
+.worksheetDetails {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.worksheetDetails p {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.worksheetDetails strong {
+  color: #2b2b2b;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.formContainer {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000000;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  color: #000000;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.submitButton {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #218838;
+}
+
+.cancelButton {
+  background-color: #6c757d;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancelButton:hover {
+  background-color: #5a6268;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+  .cardContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .overlay {
+    padding: 10px;
+  }
+
+  .formContainer {
+    width: 90%;
+  }
+
+  .subtopicsList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pdfThumbnail {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin: 15px auto;
+}
+
+.cardTitle {
+  text-align: center;
+}
+
+/* Success and Error Alerts */
+.alertSuccess {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-left: 5px solid #28a745;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.alertError {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-left: 5px solid #dc3545;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+}

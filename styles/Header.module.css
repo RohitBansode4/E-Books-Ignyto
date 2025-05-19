@@ -1,0 +1,364 @@
+/* Custom Navbar Styles */
+.customNavbar {
+  background-color: rgba(0, 0, 0, 0.95); /* Transparent background */
+  color: #ffffff; /* White text color */
+  padding: 5px 15px; /* Reduced padding for smaller header height */
+  transition: transform 0.3s ease; /* Smooth transition for header hide/show */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1000; /* Ensure navbar stays on top */
+}
+
+/* For index page background */
+.indexPageBg {
+  background-color: rgba(0, 0, 0, 0); /* Transparent background on index page */
+  transition: background-color 0.6s ease-in-out; /* Smooth transition */
+}
+
+/* Black background when scrolling */
+.bgBlack {
+  background-color: black !important;
+  transition: background-color 1s ease-in-out; /* Smooth transition */
+}
+
+/* Navbar Brand (Logo) */
+.navbarLogo {
+  width: 110px; /* Logo width */
+  height: auto; /* Maintain aspect ratio */
+  margin-left: 20px;
+  border-radius: 30px;
+}
+
+/* Navbar Toggler (Hamburger Menu) */
+.navbar-toggler {
+  border: none; /* Remove border */
+  position: relative;
+  z-index: 999; /* Ensure it is above other elements */
+  background: transparent; /* Remove default background */
+}
+
+/* Navbar Toggler Icon (Mobile View) */
+.navbarTogglerIcon {
+  color: white; /* White color for the custom icon */
+  font-size: 1.5rem; /* Adjust size */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Add transitions for animation */
+}
+
+/* When the toggle is clicked (hamburger to X transition) */
+.navbar-toggler.collapsed .navbar-toggler-icon {
+  transform: rotate(0deg);
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+  transform: rotate(45deg); /* Rotate to 45deg when active */
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 30px;
+  height: 5px;
+  background-color: #fff;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon:before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 30px;
+  height: 5px;
+  background-color: #fff;
+  transform: rotate(90deg);
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  width: 30px;
+  height: 5px;
+  background-color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Dropdown Title Styles */
+.navDropdownButton {
+  color: #ffffff; /* White text */
+  font-size: 1rem;
+  padding: 10px 15px 10px 15px; /* Add space around the text */
+  font-weight: 400;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center; /* Ensure the icon aligns with the text */
+}
+
+.navDropdownButton:hover {
+  color: #008080; /* Hover color */
+}
+
+.dropdownArrow {
+  margin-left: 8px; /* Adds space between the text and the arrow */
+}
+
+/* Custom Dropdown Styles */
+.customDropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.navbarCollapseOpen {
+  background-color: black !important; /* Add black background when the menu is open */
+}
+
+/* Dropdown Menu */
+.customDropdownMenu {
+  display: none; /* Hide by default */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+/* Dropdown Items Styling */
+.customDropdownMenu a {
+  color: #333;
+  text-decoration: none;
+  padding: 8px 12px;
+  display: block;
+  font-size: 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.customDropdownMenu a:hover {
+  background-color: #008080;
+  color: #fff;
+  transform: scale(1.01); /* Slight zoom effect on hover */
+}
+
+/* Show dropdown on hover with animation */
+.customDropdown:hover .customDropdownMenu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  animation: dropdownFadeIn 0.4s ease-in-out;
+}
+
+@keyframes dropdownFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Register Now Button */
+.registerButton {
+  background-color: #28a745;  /* Set background to white */
+  color: #FFFFFF;  /* Set text color to black */
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 1px solid #cccccc; /* Optional: border for definition */
+}
+
+/* Hover effect for Register Now button */
+.registerButton:hover {
+  background-color: green; /* Light gray background on hover */
+  color: #000000; /* Same hover text color as other dropdowns */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* Dropdown menu inside Register Now */
+.registerButton .dropdown-menu {
+  background-color: #858585; /* Light background for dropdown */
+  color: #000000;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for dropdown */
+}
+
+/* Menu items in Register Now dropdown */
+.registerButton .dropdown-menu a {
+  color: #333; /* Default text color */
+  padding: 8px 12px;
+  font-size: 1rem;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 6px;
+}
+
+/* Hover effect for dropdown items */
+.registerButton .dropdown-menu a:hover {
+  background-color: #008080; /* Same hover background color as other dropdowns */
+  color: #000000; /* Change text color to white */
+}
+
+/* Navbar Links */
+.navLink {
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 10px 15px;
+  font-weight: 300;
+  text-transform: capitalize;
+  border-radius: 6px;
+  position: relative;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block; /* Ensure the links appear on the same line */
+  margin-right: 15px; /* Add space between the links */
+}
+
+/* Hover underline for navbar links */
+.navLink:hover {
+  color: #FFD700; /* Hover color */
+  cursor: pointer;
+}
+
+/* Hover to trigger dropdown */
+.navLink:hover + .customDropdownMenu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  animation: dropdownFadeIn 0.4s ease-in-out;
+}
+
+.navLink:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #FFD700; /* Yellow underline */
+  animation: underlineAnimation 0.3s ease-in-out;
+}
+
+/* Underline animation for nav links */
+@keyframes underlineAnimation {
+  from {
+    width: 0;
+    left: 50%;
+  }
+  to {
+    width: 100%;
+    left: 0;
+  }
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 992px) {
+  .navbarNav {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start; /* Align items to the top */
+    width: 100%;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 6px 0;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+  }
+
+  /* Left padding for nav links */
+  .navLink {
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: left; /* Align text to the left */
+    padding-left: 20px; /* Add padding to the left */
+  }
+
+  /* Left padding for the dropdown buttons */
+  .navDropdownButton {
+    display: inline-flex;
+    justify-content: center; /* Center align dropdown button */
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px; /* Adjust padding for mobile */
+    font-size: 1.1rem;
+    padding-left: 20px;  /* Add padding to the left */
+  }
+
+  /* Register Now Button */
+  .registerButton {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex; /* Make it a flex container */
+    align-items: center;
+    justify-content: flex-start; /* Justify content to the left */
+    width: 100%; /* Make it take full width of the container */    
+    margin: 0 auto; /* Center the button in the parent container */
+    padding-left: 20px; /* Add padding to the left */
+    transition: all 0.3s ease;
+  }
+
+  /* Hover effect for Register Now button */
+  .registerButton:hover {
+    background-color: green; /* Light gray background on hover */
+    color: #000000; /* Same hover text color as other dropdowns */
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+
+  /* Contact Link */
+  .navLink.contactUs {
+    padding-left: 0;  /* Remove padding from the left of the Contact Us link */
+  }
+
+  /* Apply padding to all dropdown items */
+  .customDropdownMenu a {
+    padding-left: 0;  /* Apply padding to the left of dropdown items */
+  }
+}
+
+/* Navbar Links Alignment */
+.navbarNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navLink, .navDropdownButton {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 15px;
+}
+
+/* Align the dropdowns properly */
+.customDropdown {
+  display: inline-block;
+  margin-right: 15px;
+}

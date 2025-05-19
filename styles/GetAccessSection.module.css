@@ -1,0 +1,78 @@
+.GetAccessSection {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto; /* Let the height grow based on content */
+  min-height: 400px; /* Add a minimum height to avoid too small sections */
+  background-image: url('/images/Get_Access.png'); /* Background image */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: left;
+  padding: 3rem 2rem; /* Padding for spacing */
+  margin-bottom: 4rem; /* Adds space below the section */
+}
+
+.GetAccessTextContainer {
+  position: absolute;
+  left: 10%; /* Position text from left */
+  max-width: 600px; /* Limit width of text */
+  text-align: left;
+}
+
+.GetAccessHeading {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.GetAccessSubtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.GetAccessCtaButton {
+  background-color: #6c78e8;
+  color: white;
+  padding: 0.5rem 2rem;
+  border: none;
+  max-width: 250px; 
+  width: 100%; /* Full width on smaller screens */
+  border-radius: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.GetAccessCtaButton:hover {
+  background-color: #4e5ac4;
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .GetAccessSection {
+    /* Ensure the section behaves responsively */
+    height: auto; /* Let height adjust with content */
+    min-height: 300px; /* Make it a bit shorter on mobile */
+    padding: 2rem 1rem; /* Adjust padding for smaller screens */
+  }
+
+  .GetAccessHeading {
+    font-size: 2rem; /* Smaller heading on mobile */
+  }
+
+  .GetAccessSubtitle {
+    font-size: 1.2rem; /* Smaller subtitle on mobile */
+  }
+
+  .GetAccessTextContainer {
+    left: 5%;  /* Adjust position for mobile */
+    max-width: 90%; /* Allow text container to take more space */
+  }
+
+  .GetAccessCtaButton {
+    font-size: 1rem; /* Smaller button text on mobile */
+    padding: 0.6rem 1.5rem;
+  }
+}

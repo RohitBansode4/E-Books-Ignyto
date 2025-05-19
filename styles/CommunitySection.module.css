@@ -1,0 +1,136 @@
+/* Main Container */
+.communityContainer {
+  padding: 50px 20px;
+  text-align: center;
+  background-color: #5971c7; /* Light skin tone background color */
+}
+
+/* Heading */
+.heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
+/* Icons Section */
+.iconsContainer {
+  display: flex;
+  justify-content: space-between; /* Distribute icons evenly */
+  align-items: center; /* Vertically align all icons to the same height */
+  margin-bottom: 50px;
+  max-width: 900px; /* Set max-width for the icon container to prevent overflow */
+  margin: 0 auto; /* Center the icons container */
+}
+
+.iconBox {
+  text-align: center;
+  max-width: 180px;
+  display: flex; /* Use flexbox for vertical centering */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.iconText {
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.iconText span {
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #f0b43d;
+}
+
+/* Message Box Section */
+.messagesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center content */
+  align-items: center; /* Horizontally center content */
+  margin-top: 50px;
+  background-color: #6a85e8cd; /* Light background for the entire message box section */
+  padding: 20px;
+  border-radius: 10px;
+  width: 85%; /* Ensure it takes up full available width */
+  margin-left: auto; /* Center horizontally */
+  margin-right: auto; /* Center horizontally */
+}
+
+/* Common message box style */
+.messageBox {
+  width: 100%;
+  padding: 15px;
+  border-radius: 20px;
+  position: relative; /* Added to position the triangle */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Receiver Message (Left aligned) */
+.receiverMessage {
+  text-align: left;
+  padding-right: 90px;
+}
+
+.receiverMessage .messageBox {
+  background-color: #e2f7e1; /* Light green background for receiver */
+  border: 1px solid #d0f0c0;
+}
+
+/* Triangle for Receiver */
+.receiverMessage .messageBox::before {
+  content: '';
+  position: absolute;
+  left: 20px; /* Position the triangle on the left side of the box */
+  bottom: -20px; /* Place the triangle at the bottom edge */
+  border-width: 10px;
+  border-style: solid;
+  border-color: #e2f7e1 transparent transparent transparent;
+}
+
+/* Sender Message (Right aligned) */
+.senderMessage {
+  text-align: left;
+  padding-left: 90px;
+}
+
+.senderMessage .messageBox {
+  background-color: #e1f7ff; /* Light blue background for sender */
+  border: 1px solid #c0e0f0;
+}
+
+/* Triangle for Sender */
+.senderMessage .messageBox::after {
+  content: '';
+  position: absolute;
+  right: 20px; /* Position it towards the right side */
+  bottom: -20px; /* Place it at the bottom edge */
+  border-width: 10px;
+  border-style: solid;
+  border-color: #e1f7ff transparent transparent transparent;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #1cd1d1;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  max-width: 300px; 
+  width: 100%;
+  border: none;
+  border-radius: 50px; 
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #18a4a4; 
+}

@@ -1,0 +1,196 @@
+/* Custom Section Styles */
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 50px 20px;
+  background-color: #fcddd3; /* Light skin tone background color */
+}
+
+/* Top Heading and Subtitle */
+.topContent {
+  margin-bottom: 30px;
+}
+
+.topHeading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.topSubtitle {
+  font-size: 1.2rem;
+  color: #777;
+  max-width: 600px;
+  margin: 10px auto;
+}
+
+/* Center Image */
+.imageContainer {
+  margin-bottom: 40px;
+}
+
+.centeredImage {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+/* Left Content (Heading and Subtitle) */
+.leftContent {
+  position: absolute;
+  left: 20%; /* Shifted more to the right */
+  top: 35%; /* Adjusted position upwards */
+  transform: translate(-20%, -35%);
+  text-align: left;
+  max-width: 350px;  /* Ensure the left section does not overflow */
+}
+
+.leftHeading {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.leftSubtitle {
+  font-size: 1rem;
+  color: #777;
+  max-width: 300px; /* Limit width to prevent overflow */
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+/* Right Content (Heading and Subtitle) */
+.rightContent {
+  position: absolute;
+  right: 7%; /* Reduced padding to move it further to the left */
+  top: 75%; /* Shifted lower */
+  transform: translate(5%, -75%);
+  text-align: right;
+  max-width: 550px;  /* Limit the width to prevent overflow */
+  padding-right: 20px; /* Added minimal padding */
+}
+
+.rightHeading {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.rightSubtitle {
+  font-size: 1rem;
+  color: #777;
+  max-width: 300px; /* Limit width to prevent overflow */
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+
+.ctaButton {
+  display: inline-block;
+  background-color: #6c78e8;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  max-width: 300px; 
+  width: 100%;
+  border: none;
+  border-radius: 50px; 
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #5a67d8; 
+}
+
+/* Responsive Design for screens smaller than 1000px */
+@media (max-width: 1000px) {
+  .sectionContainer {
+    padding: 20px 15px; /* Adjust padding for smaller screens */
+  }
+
+  /* Top Heading */
+  .topHeading {
+    font-size: 2rem;
+  }
+
+  .topSubtitle {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+
+  /* Left Content */
+  .leftContent {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: translate(0, 0); /* Reset the absolute positioning */
+    text-align: center; /* Center align text */
+    max-width: 90%; /* Allow content to take up more space */
+    margin-bottom: 20px; /* Add space below it */
+  }
+
+  /* Center Image */
+  .imageContainer {
+    margin-bottom: 30px;
+  }
+
+  .centeredImage {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  /* Right Content */
+  .rightContent {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: translate(0, 0); /* Reset the absolute positioning */
+    text-align: center; /* Center align text */
+    max-width: 90%;
+    margin-top: 20px; /* Add space between sections */
+    padding-right: 0; /* Remove right padding */
+  }
+
+  .rightHeading {
+    font-size: 1.8rem;
+  }
+
+  .rightSubtitle {
+    font-size: 0.9rem;
+    max-width: 90%; /* Ensure no overflow */
+  }
+}
+
+/* For screens smaller than 768px (Mobile screens) */
+@media (max-width: 768px) {
+  .topHeading {
+    font-size: 1.8rem;
+  }
+
+  .topSubtitle {
+    font-size: 0.95rem;
+  }
+
+  .leftHeading {
+    font-size: 1.8rem;
+  }
+
+  .leftSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .rightHeading {
+    font-size: 1.6rem;
+  }
+
+  .rightSubtitle {
+    font-size: 0.85rem;
+  }
+}
+

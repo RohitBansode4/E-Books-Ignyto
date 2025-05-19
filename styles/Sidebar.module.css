@@ -1,0 +1,73 @@
+/* Sidebar.module.css */
+.sidebar {
+  width: 220px;
+  background-color: #f7f9fc;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: inset -1px 0 0 #e5e7eb;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.sidebarHeading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.subjectList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.subjectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subjectItem {
+  padding: 8px 12px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.subjectItem:hover {
+  background-color: #e6ecff;
+  border-color: #4f46e5;
+  color: #1e40af;
+}
+
+.subtopicsList {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtopicItem {
+  padding: 6px 10px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.subtopicItem:hover {
+  background-color: #c3d9ff;
+  color: #1e40af;
+}
