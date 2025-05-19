@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../../../styles/Worksheets.module.css';
 import Header from '@/components/Header';
+import Image from 'next/image';
+
 
 interface Worksheet {
   id: number;
@@ -129,7 +131,7 @@ const SubjectWorksheets = () => {
             >
               <div className={styles.card}>
                 <div className={styles.cardHeader}>
-                  <img
+                  <Image
                     src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
                     alt={worksheet.title}
                     className={styles.cardImage}

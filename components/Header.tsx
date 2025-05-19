@@ -6,6 +6,8 @@ import styles from '../styles/Header.module.css';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
 import { debounce } from 'lodash';
 import Link from 'next/link';
+import Image from 'next/image';
+
 
 type Subject = {
   id: string;
@@ -125,7 +127,7 @@ const Header: React.FC = () => {
     >
       <Navbar.Brand>
         <Link href="/" className={styles.navbarBrand}>
-          <img alt="ASVAB WARRIORS" src="/images/Asvab_logo.png" className={styles.navbarLogo} />
+          <Image alt="ASVAB WARRIORS" src="/images/Asvab_logo.png" className={styles.navbarLogo} />
         </Link>
       </Navbar.Brand>
 

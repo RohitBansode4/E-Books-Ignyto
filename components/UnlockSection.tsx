@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from '../styles/UnlockSection.module.css';
+import Image from 'next/image';
+
 
 const CustomSection: React.FC = () => {
   return (
@@ -23,7 +25,7 @@ const CustomSection: React.FC = () => {
 
       {/* Centered Image */}
       <div className={styles.imageContainer}>
-        <img src="/images/UnlockSection_Image.png" alt="Centered Image" className={styles.centeredImage} />
+        <Image src="/images/UnlockSection_Image.png" alt="Centered Image" className={styles.centeredImage} />
       </div>
 
       {/* Right Section */}

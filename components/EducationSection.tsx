@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from '../styles/EducationSection.module.css'; // Assuming the CSS module is named EducationSection.module.css
+import Image from 'next/image';
+
 
 const EducationSection: React.FC = () => {
   return (
@@ -15,12 +17,12 @@ const EducationSection: React.FC = () => {
       </div>
       
       <div className={styles.imagesContainer}>
-        <img
+        <Image
           src="/images/Education_left.svg"
           alt="Education"
           className={styles.leftImage}
         />
-        <img
+        <Image
           src="/images/Education_right.svg"
           alt="Learning"
           className={styles.rightImage}

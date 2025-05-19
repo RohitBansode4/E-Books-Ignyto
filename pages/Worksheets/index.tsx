@@ -4,6 +4,8 @@ import styles from '../../styles/Worksheets.module.css';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+
 
 interface WorksheetData {
   id: number;
@@ -85,7 +87,7 @@ const WorksheetsList: React.FC = () => {
                 >
                   <div className={`${styles.card}`}>
                     <div className={styles.cardHeader}>
-                      <img
+                      <Image
                         src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
                         alt={worksheet.title}
                         className={styles.cardImage}
