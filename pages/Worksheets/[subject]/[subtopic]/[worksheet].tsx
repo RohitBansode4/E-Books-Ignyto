@@ -153,7 +153,11 @@ const WorksheetDetail: React.FC = () => {
                 src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
                 alt={worksheet.title}
                 className={styles.cardImage}
+                width={300}
+                height={200}
+                unoptimized={worksheet.thumbnail_url?.startsWith('http')}
               />
+
             </div>
             <p><strong>Description:</strong> {worksheet.description || 'No description available'}</p>
             <p><strong>Subject:</strong> {worksheet.subject || 'N/A'}</p>

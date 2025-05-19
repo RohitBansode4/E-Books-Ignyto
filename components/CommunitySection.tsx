@@ -11,18 +11,44 @@ const CommunitySection: React.FC = () => {
 
       {/* Icons Section */}
       <div className={styles.iconsContainer}>
-        <div className={styles.iconBox}>
-          <Image src="/images/Community_Floyd_1.png" alt="Parents Served" className={styles.icon} />
-          <p className={styles.iconText}><span>44 million</span> parents, teachers, and students served</p>
-        </div>
-        <div className={styles.iconBox}>
-          <Image src="/images/Community_IceCream_2.png" alt="Teachers Served" className={styles.icon} />
-          <p className={styles.iconText}>Used in <span>20 countries</span> across 6 continents</p>
-        </div>
-        <div className={styles.iconBox}>
-          <Image src="/images/Community_TuTu_3.png" alt="Students Served" className={styles.icon} />
-          <p className={styles.iconText}>Library with <span>37,000</span> educational resources</p>
-        </div>
+         <div className={styles.iconBox}>
+            <Image
+              src="/images/Community_Floyd_1.png"
+              alt="Parents Served"
+              width={60}
+              height={60}
+              className={styles.icon}
+            />
+            <p className={styles.iconText}>
+              <span>44 million</span> parents, teachers, and students served
+            </p>
+          </div>
+
+          <div className={styles.iconBox}>
+            <Image
+              src="/images/Community_IceCream_2.png"
+              alt="Teachers Served"
+              width={60}
+              height={60}
+              className={styles.icon}
+            />
+            <p className={styles.iconText}>
+              Used in <span>20 countries</span> across 6 continents
+            </p>
+          </div>
+
+          <div className={styles.iconBox}>
+            <Image
+              src="/images/Community_TuTu_3.png"
+              alt="Students Served"
+              width={60}
+              height={60}
+              className={styles.icon}
+            />
+            <p className={styles.iconText}>
+              Library with <span>37,000</span> educational resources
+            </p>
+          </div>
       </div>
 
       {/* Message Box Section with new background color */}

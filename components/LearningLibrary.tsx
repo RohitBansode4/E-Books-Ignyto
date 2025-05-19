@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../styles/LearningLibrary.module.css';
-import { FaBookOpen, FaChalkboardTeacher, FaClipboardList, FaGamepad, FaPuzzlePiece } from 'react-icons/fa';
+import { FaBookOpen, FaChalkboardTeacher, FaGamepad, FaPuzzlePiece } from 'react-icons/fa';
 
 const cardData = [
   {

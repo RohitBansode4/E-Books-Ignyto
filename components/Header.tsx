@@ -8,7 +8,6 @@ import { debounce } from 'lodash';
 import Link from 'next/link';
 import Image from 'next/image';
 
-
 type Subject = {
   id: string;
   name: string;
@@ -44,8 +43,12 @@ const Header: React.FC = () => {
           }
           const data = await response.json();
           setSubtopics((prev) => ({ ...prev, [subjectId]: data.subtopics }));
-        } catch (error: any) {
-          setError(error.message);
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            setError(error.message);
+          } else {
+            setError('An unexpected error occurred.');
+          }
         }
       }
     }, 500)
@@ -84,8 +87,12 @@ const Header: React.FC = () => {
         const data = await response.json();
         setSubjects(data);
         setLoading(false);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unexpected error occurred.');
+        }
         setLoading(false);
       }
     };
@@ -127,7 +134,13 @@ const Header: React.FC = () => {
     >
       <Navbar.Brand>
         <Link href="/" className={styles.navbarBrand}>
-          <Image alt="ASVAB WARRIORS" src="/images/Asvab_logo.png" className={styles.navbarLogo} />
+          <Image
+            alt="ASVAB WARRIORS"
+            src="/images/Asvab_logo.png"
+            className={styles.navbarLogo}
+            width={120}
+            height={40}
+          />
         </Link>
       </Navbar.Brand>
 

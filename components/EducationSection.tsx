@@ -21,11 +21,13 @@ const EducationSection: React.FC = () => {
           src="/images/Education_left.svg"
           alt="Education"
           className={styles.leftImage}
+          fill
         />
         <Image
           src="/images/Education_right.svg"
           alt="Learning"
           className={styles.rightImage}
+          fill
         />
       </div>
     </div>
