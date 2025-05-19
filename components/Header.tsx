@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import styles from '../styles/Header.module.css';
 import { FaChevronDown, FaBars } from 'react-icons/fa';
 import { debounce } from 'lodash';
+import Link from 'next/link';
 
 type Subject = {
   id: string;
@@ -29,12 +30,13 @@ const Header: React.FC = () => {
 
   const router = useRouter();
 
-  // Debounced fetch for subtopics
   const debounceFetchSubtopics = useRef(
     debounce(async (subjectId: string) => {
       if (!subtopics[subjectId]) {
         try {
-          const response = await fetch(`https://worksheets.asvabwarriors.org/Subjects/Subtopics/api/get_subtopics.php?subject_id=${subjectId}`);
+          const response = await fetch(
+            `https://worksheets.asvabwarriors.org/Subjects/Subtopics/api/get_subtopics.php?subject_id=${subjectId}`
+          );
           if (!response.ok) {
             throw new Error('Failed to fetch subtopics');
           }
@@ -47,9 +49,8 @@ const Header: React.FC = () => {
     }, 500)
   );
 
-  // Check if it's the index page
   useEffect(() => {
-    if (window.location.pathname === "/") {
+    if (window.location.pathname === '/') {
       setIsIndexPage(true);
       setBgColor('black');
     } else {
@@ -58,7 +59,6 @@ const Header: React.FC = () => {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY > 60) {
         setBgColor('black');
       } else {
@@ -72,7 +72,6 @@ const Header: React.FC = () => {
     };
   }, [isIndexPage]);
 
-  // Fetch subjects from the API
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
@@ -119,20 +118,15 @@ const Header: React.FC = () => {
   return (
     <Navbar
       expand="lg"
-      className={`${styles.customNavbar} ${bgColor === 'black' ? styles.bgBlack : ''} ${isIndexPage && bgColor === 'black' ? styles.indexPageBg : ''}`}
-      style={{
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1,
-      }}
+      className={`${styles.customNavbar} ${bgColor === 'black' ? styles.bgBlack : ''} ${
+        isIndexPage && bgColor === 'black' ? styles.indexPageBg : ''
+      }`}
+      style={{ top: 0, left: 0, right: 0, zIndex: 1 }}
     >
-      <Navbar.Brand href="/" className={styles.navbarBrand}>
-        <img
-          alt="ASVAB WARRIORS"
-          src="/images/Asvab_logo.png"
-          className={styles.navbarLogo}
-        />
+      <Navbar.Brand>
+        <Link href="/" className={styles.navbarBrand}>
+          <img alt="ASVAB WARRIORS" src="/images/Asvab_logo.png" className={styles.navbarLogo} />
+        </Link>
       </Navbar.Brand>
 
       <Navbar.Toggle
@@ -147,17 +141,15 @@ const Header: React.FC = () => {
 
       <Navbar.Collapse id="navbarNavDropdown" className={menuOpen ? styles.navbarCollapseOpen : ''}>
         <Nav className="ms-auto d-flex justify-content-center align-items-center">
-          {/* Subject Button */}
+          {/* SUBJECTS Dropdown */}
           <div className={`${styles.customDropdown}`} onMouseLeave={handleMouseLeave}>
             <button
               className={`${styles.navDropdownButton} ${styles.navLink}`}
               onMouseEnter={() => handleMouseEnter('')}
             >
-              SUBJECTS
-              <FaChevronDown className={styles.dropdownArrow} />
+              SUBJECTS <FaChevronDown className={styles.dropdownArrow} />
             </button>
 
-            {/* Subtopic Dropdown */}
             <div className={`${styles.customDropdownMenu} ${activeSubjectId ? styles.showSubtopics : ''}`}>
               {loading ? (
                 <div className="spinner-border" role="status">
@@ -176,7 +168,6 @@ const Header: React.FC = () => {
                       {subject.name}
                     </Dropdown.Toggle>
 
-                    {/* Subtopics for each subject */}
                     {subtopics[subject.id] && (
                       <Dropdown.Menu className={styles.customDropdownSubMenu}>
                         {subtopics[subject.id].map((subtopic) => (
@@ -198,21 +189,22 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Worksheet Button */}
+          {/* WORKSHEETS Link */}
           <div className={`${styles.customDropdown}`}>
             <button className={`${styles.navDropdownButton} ${styles.navLink}`}>
-              WORKSHEETS
-              <FaChevronDown className={styles.dropdownArrow} />
+              WORKSHEETS <FaChevronDown className={styles.dropdownArrow} />
             </button>
             <div className={styles.customDropdownMenu}>
-              <a href="/Worksheets" className={`${styles.customDropdownItem} ${styles.navLink}`}>
+              <Link href="/Worksheets" className={`${styles.customDropdownItem} ${styles.navLink}`}>
                 VIEW WORKSHEETS
-              </a>
+              </Link>
             </div>
           </div>
 
-          {/* Contact Button */}
-          <Nav.Link href="/Contact" className={styles.navLink}>CONTACT US</Nav.Link>
+          {/* CONTACT Link */}
+          <Link href="/Contact" className={styles.navLink}>
+            CONTACT US
+          </Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
