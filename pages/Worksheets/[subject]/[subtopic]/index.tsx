@@ -1,3 +1,4 @@
+// pages/Worksheets/[subject]/[subtopic]/index.tsx
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -71,15 +72,16 @@ const SubjectSubtopicWorksheets = () => {
               </button>
             </li>
             <li className="breadcrumb-item">
-              <a href="/Worksheets" className="text-decoration-none">
+              <Link href="/Worksheets" className="text-decoration-none">
                 Worksheets
-              </a>
+              </Link>
             </li>
             <li className="breadcrumb-item">
-              <a href={`/Worksheets/${toSlug(subject as string)}`} className="text-decoration-none">
+              <Link href={`/Worksheets/${toSlug(subject as string)}`} className="text-decoration-none">
                 {subject}
-              </a>
+              </Link>
             </li>
+
             <li className="breadcrumb-item active" aria-current="page">
               {subtopic}
             </li>
