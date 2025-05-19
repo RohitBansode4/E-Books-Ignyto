@@ -136,7 +136,7 @@ const Header: React.FC = () => {
         <Link href="/" className={styles.navbarBrand}>
           <Image
             alt="ASVAB WARRIORS"
-            src="/images/Asvab_logo.png"
+            src="/images/Ignyto_Logo.jpeg"
             className={styles.navbarLogo}
             width={120}
             height={40}

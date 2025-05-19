@@ -23,7 +23,7 @@ const WorksheetsList: React.FC = () => {
   const [subjects, setSubjects] = useState<string[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  // const router = useRouter();
+  const router = useRouter();
 
   const toSlug = (text: string) =>
     text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
@@ -87,14 +87,11 @@ const WorksheetsList: React.FC = () => {
                 >
                   <div className={`${styles.card}`}>
                     <div className={styles.cardHeader}>
-                      <Image
-                          src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
-                          alt={worksheet.title}
-                          className={styles.cardImage}
-                          width={300}
-                          height={200}
-                          unoptimized={worksheet.thumbnail_url?.startsWith('http')}
-                        />
+                      <img
+                        src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
+                        alt={worksheet.title}
+                        className={styles.cardImage}
+                      />
                       <h4 className={styles.cardTitle}>{worksheet.title}</h4>
                     </div>
                     <p className={styles.cardSubtitle}>{worksheet.description}</p>

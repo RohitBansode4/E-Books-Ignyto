@@ -2,18 +2,16 @@ import React from 'react';
 import styles from '../styles/UnlockSection.module.css';
 import Image from 'next/image';
 
-
 const CustomSection: React.FC = () => {
   return (
     <div className={styles.sectionContainer}>
       {/* Top Heading and Subtitle */}
       <div className={styles.topContent}>
-        <h1 className={styles.topHeading}>Unlock every student's true potential</h1>
+        <h1 className={styles.topHeading}>Unlock every student&apos;s true potential</h1>
         <p className={styles.topSubtitle}>
-          A premium membership gives you unlimited access to all of Education.com's resources and tools like playlists of guided lessons, progress insights for each student, and more!
+          A premium membership gives you unlimited access to all of Education.com&apos;s resources and tools like playlists of guided lessons, progress insights for each student, and more!
         </p>
       </div>
-
 
       {/* Left Section */}
       <div className={styles.leftContent}>
@@ -25,14 +23,20 @@ const CustomSection: React.FC = () => {
 
       {/* Centered Image */}
       <div className={styles.imageContainer}>
-        <Image src="/images/UnlockSection_Image.png" alt="Centered Image" className={styles.centeredImage} />
+        <Image
+          src="/images/UnlockSection_Image.png"
+          alt="Centered Image"
+          width={500} // Adjust as needed
+          height={300} // Adjust as needed
+          className={styles.centeredImage}
+        />
       </div>
 
       {/* Right Section */}
       <div className={styles.rightContent}>
         <h2 className={styles.rightHeading}>Support for individual learners</h2>
         <p className={styles.rightSubtitle}>
-          Create assignments for individual learners, an entire household, or a classroom–with insights to celebrate each student's achievements and milestones
+          Create assignments for individual learners, an entire household, or a classroom&mdash;with insights to celebrate each student&apos;s achievements and milestones.
         </p>
       </div>
 
