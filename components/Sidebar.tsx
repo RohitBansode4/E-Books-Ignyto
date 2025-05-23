@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await fetch('https://worksheets.asvabwarriors.org/Subjects/api/get_subjects.php');
+        const response = await fetch('/api/subjects'); // Using internal API route
         if (!response.ok) throw new Error('Failed to fetch subjects');
         const data = await response.json();
 
