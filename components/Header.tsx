@@ -27,15 +27,18 @@ const Header: React.FC = () => {
   const [error, setError] = useState('');
   const [activeSubjectId, setActiveSubjectId] = useState<string | null>(null);
   const [expandedSubjects, setExpandedSubjects] = useState<Record<string, boolean>>({});
-
-  // New: state for mobile dropdowns open/close (Subjects and Worksheets)
-  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<{ subjects: boolean; worksheets: boolean }>({
-    subjects: false,
-    worksheets: false,
-  });
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState({ subjects: false, worksheets: false });
+  const [isMobile, setIsMobile] = useState(false);
 
   const router = useRouter();
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 992;
+
+  // Update isMobile on window resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 992);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const debounceFetchSubtopics = useRef(
     debounce(async (subjectId: string) => {
@@ -51,7 +54,7 @@ const Header: React.FC = () => {
           setError(error instanceof Error ? error.message : 'An unexpected error occurred.');
         }
       }
-    }, 500)
+    }, 150)
   );
 
   useEffect(() => {
@@ -83,30 +86,23 @@ const Header: React.FC = () => {
   };
 
   const toggleSubjectSubtopics = (subjectId: string) => {
-    setExpandedSubjects((prev) => ({
-      ...prev,
-      [subjectId]: !prev[subjectId],
-    }));
+    setExpandedSubjects((prev) => ({ ...prev, [subjectId]: !prev[subjectId] }));
     debounceFetchSubtopics.current(subjectId);
   };
 
   const handleSubjectClick = (subjectName: string) => {
-    const subjectSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/Worksheets/${subjectSlug}`);
+    const slug = subjectName.toLowerCase().replace(/\s+/g, '-');
+    router.push(`/Worksheets/${slug}`);
   };
 
   const handleSubtopicClick = (subjectName: string, subtopicName: string) => {
-    const subjectSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
-    const subtopicSlug = subtopicName.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/Worksheets/${subjectSlug}/${subtopicSlug}`);
+    const sSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
+    const stSlug = subtopicName.toLowerCase().replace(/\s+/g, '-');
+    router.push(`/Worksheets/${sSlug}/${stSlug}`);
   };
 
-  // New: toggle mobile dropdown open/close
-  const toggleMobileDropdown = (dropdownName: 'subjects' | 'worksheets') => {
-    setMobileDropdownOpen((prev) => ({
-      ...prev,
-      [dropdownName]: !prev[dropdownName],
-    }));
+  const toggleMobileDropdown = (key: 'subjects' | 'worksheets') => {
+    setMobileDropdownOpen((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   return (
@@ -117,26 +113,24 @@ const Header: React.FC = () => {
         </Link>
       </Navbar.Brand>
 
-      <Navbar.Toggle aria-controls="navbarNavDropdown" className={styles.navbarToggler} onClick={handleToggleClick}>
+      <Navbar.Toggle aria-controls="navbarNavDropdown" onClick={handleToggleClick} className={styles.navbarToggler}>
         <FaBars className={styles.navbarTogglerIcon} />
       </Navbar.Toggle>
 
       <Navbar.Collapse id="navbarNavDropdown" className={menuOpen ? styles.navbarCollapseOpen : ''}>
         <Nav className={`ms-auto d-flex flex-column flex-lg-row align-items-start align-items-lg-center ${styles.navContainer}`}>
 
-          {/* SUBJECTS Dropdown */}
+          {/* SUBJECTS */}
           <div className={styles.customDropdown} onMouseLeave={handleMouseLeave}>
             <button
               className={styles.navDropdownButton}
               onClick={() => isMobile && toggleMobileDropdown('subjects')}
               type="button"
-              aria-expanded={mobileDropdownOpen.subjects}
             >
               SUBJECTS <FaChevronDown className={styles.dropdownArrow} />
             </button>
 
-            {/* Show dropdown menu based on hover (desktop) or toggle state (mobile) */}
-            {( !isMobile || mobileDropdownOpen.subjects ) && (
+            {(mobileDropdownOpen.subjects || !isMobile) && (
               <div className={styles.customDropdownMenu}>
                 {subjects.map((subject) => (
                   <div
@@ -152,7 +146,6 @@ const Header: React.FC = () => {
                         <FaChevronDown />
                       </button>
                     </div>
-
                     {((!isMobile && activeSubjectId === subject.id) || (isMobile && expandedSubjects[subject.id])) &&
                       subtopics[subject.id] && (
                         <div className={styles.submenu}>
@@ -175,17 +168,16 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          {/* WORKSHEETS Dropdown */}
+          {/* WORKSHEETS */}
           <div className={styles.customDropdown}>
             <button
               className={styles.navDropdownButton}
               onClick={() => isMobile && toggleMobileDropdown('worksheets')}
               type="button"
-              aria-expanded={mobileDropdownOpen.worksheets}
             >
               WORKSHEETS <FaChevronDown className={styles.dropdownArrow} />
             </button>
-            {( !isMobile || mobileDropdownOpen.worksheets ) && (
+            {(mobileDropdownOpen.worksheets || !isMobile) && (
               <div className={styles.customDropdownMenu}>
                 <Link href="/Worksheets" className={styles.customDropdownItem}>
                   VIEW WORKSHEETS
@@ -194,7 +186,7 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          {/* CONTACT US */}
+          {/* CONTACT */}
           <Link href="/Contact" className={styles.navLink}>
             CONTACT US
           </Link>
