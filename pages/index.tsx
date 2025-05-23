@@ -12,8 +12,8 @@ const Home = () => {
     return (
         <div>
             <Head>
-                <title>ASVAB Warriors</title>
-                <meta name="description" content="Olympiad website description" />
+                <title>IGNYTO SOLUTIONS</title>
+                <meta name="description" content="IGNYTO SOLUTIONS WORKSHEETS" />
             </Head>
             <Header />                        
             <HeroSection />
