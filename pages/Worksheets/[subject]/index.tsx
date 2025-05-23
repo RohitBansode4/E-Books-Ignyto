@@ -2,6 +2,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from '../../../styles/Worksheets.module.css';
 import Header from '@/components/Header';
 
@@ -14,6 +15,10 @@ interface Worksheet {
   subtopic: string;
 }
 
+// Moved outside component for performance
+const toSlug = (text: string) =>
+  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+
 const SubjectWorksheets = () => {
   const router = useRouter();
   const { subject } = router.query;
@@ -21,10 +26,6 @@ const SubjectWorksheets = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [subtopics, setSubtopics] = useState<string[]>([]);
-
-  // Function to generate a slug from text (used to create clean URL paths)
-  const toSlug = (text: string) =>
-    text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
 
   useEffect(() => {
     const fetchWorksheets = async () => {
@@ -57,8 +58,12 @@ const SubjectWorksheets = () => {
         } else {
           setError(data.message || 'Failed to load worksheets.');
         }
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch worksheets.');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Failed to fetch worksheets.');
+        }
       } finally {
         setLoading(false);
       }
@@ -68,7 +73,12 @@ const SubjectWorksheets = () => {
   }, [subject]);
 
   if (loading) return <p>Loading worksheets...</p>;
-  if (error) return <p className="text-danger">{error}</p>;
+  if (error)
+    return (
+      <p className={styles.textDanger} role="alert">
+        {error}
+      </p>
+    );
 
   return (
     <>
@@ -86,22 +96,24 @@ const SubjectWorksheets = () => {
         >
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <button
-                onClick={() => router.push('/')}
-                className="btn btn-link p-0 text-decoration-none"
-                style={{ fontSize: '1.1rem' }}
-              >
-                <i className="bi bi-house-door"></i> Home
-              </button>
+              <Link href="/" legacyBehavior>
+                <a
+                  className="btn btn-link p-0 text-decoration-none"
+                  style={{ fontSize: '1.1rem' }}
+                >
+                  <i className="bi bi-house-door" aria-hidden="true"></i> Home
+                </a>
+              </Link>
             </li>
             <li className="breadcrumb-item">
-              <button
-                onClick={() => router.push('/Worksheets')}
-                className="btn btn-link p-0 text-decoration-none"
-                style={{ fontSize: '1.1rem' }}
-              >
-                Worksheets
-              </button>
+              <Link href="/Worksheets" legacyBehavior>
+                <a
+                  className="btn btn-link p-0 text-decoration-none"
+                  style={{ fontSize: '1.1rem' }}
+                >
+                  Worksheets
+                </a>
+              </Link>
             </li>
             <li
               className="breadcrumb-item active"
@@ -129,8 +141,9 @@ const SubjectWorksheets = () => {
                     pathname: '/Worksheets/[subject]/[subtopic]',
                     query: { subject, subtopic: toSlug(subtopic) },
                   }}
+                  legacyBehavior
                 >
-                  <div className={styles.subtopicItem}>{subtopic}</div>
+                  <a className={styles.subtopicItem}>{subtopic}</a>
                 </Link>
               ))
             ) : (
@@ -151,22 +164,29 @@ const SubjectWorksheets = () => {
                   worksheet: toSlug(worksheet.title),
                 },
               }}
+              legacyBehavior
             >
-              <div className={styles.card}>
+              <a className={styles.card} aria-label={`View worksheet: ${worksheet.title}`}>
                 <div className={styles.cardHeader}>
-                  <img
+                  <Image
                     src={
                       worksheet.thumbnail_url ||
                       'https://via.placeholder.com/300x200.png?text=No+Thumbnail'
                     }
                     alt={worksheet.title}
+                    width={300}
+                    height={200}
                     className={styles.cardImage}
+                    loading="lazy"
+                    unoptimized={true}
                   />
                   <h4 className={styles.cardTitle}>{worksheet.title}</h4>
                 </div>
                 <p className={styles.cardSubtitle}>{worksheet.description}</p>
-                <button className={styles.cardButton}>View Worksheet</button>
-              </div>
+                <span className={styles.cardButton} aria-hidden="true">
+                  View Worksheet
+                </span>
+              </a>
             </Link>
           ))}
         </div>

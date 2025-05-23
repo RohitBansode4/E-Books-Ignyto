@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import styles from '../../../../styles/Worksheets.module.css';
 import Header from '@/components/Header';
 
@@ -21,7 +22,8 @@ const WorksheetDetail: React.FC = () => {
   const [worksheet, setWorksheet] = useState<WorksheetData | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [userDetails, setUserDetails] = useState({ name: '', email: '', mobile: '' });
-  const [error, setError] = useState('');
+  const [fetchError, setFetchError] = useState('');
+  const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -29,25 +31,28 @@ const WorksheetDetail: React.FC = () => {
     if (!router.isReady || !slug || !subject || !subtopic) return;
 
     const fetchWorksheet = async () => {
-      setError('');
+      setFetchError('');
       setSuccessMessage('');
       setWorksheet(null);
 
       try {
         const res = await fetch(
-          `/api/worksheets/${encodeURIComponent(subject as string)}/${encodeURIComponent(subtopic as string)}/${encodeURIComponent(slug as string)}`
+          `/api/worksheets/${encodeURIComponent(subject as string)}/${encodeURIComponent(
+            subtopic as string
+          )}/${encodeURIComponent(slug as string)}`
         );
 
         const data = await res.json();
 
         if (!res.ok || data.status !== 'success' || !data.data) {
-          setError(data.error || 'Worksheet not found.');
+          setFetchError(data.error || 'Worksheet not found.');
           return;
         }
 
         setWorksheet(data.data);
-      } catch {
-        setError('Failed to load worksheet.');
+      } catch (err) {
+        setFetchError('Failed to load worksheet.');
+        console.error(err);
       }
     };
 
@@ -61,22 +66,18 @@ const WorksheetDetail: React.FC = () => {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, mobile } = userDetails;
-
-    if (!name || !email || !mobile) {
-      setError('Please fill in all fields.');
+    setFormError('');
+    if (!userDetails.name || !userDetails.email || !userDetails.mobile) {
+      setFormError('Please fill in all fields.');
       return;
     }
 
     if (!worksheet?.id) {
-      setError('Worksheet ID is missing.');
+      setFormError('Worksheet ID is missing.');
       return;
     }
 
     setLoading(true);
-    setError('');
-    setSuccessMessage('');
-
     try {
       const res = await fetch('/api/send-email', {
         method: 'POST',
@@ -92,14 +93,15 @@ const WorksheetDetail: React.FC = () => {
       const result = await res.json();
 
       if (result.success) {
-        setSuccessMessage(`✅ Email successfully sent to ${email}. Please check your inbox.`);
+        setSuccessMessage(`✅ Email successfully sent to ${userDetails.email}. Please check your inbox.`);
         setShowForm(false);
         setUserDetails({ name: '', email: '', mobile: '' });
       } else {
-        setError(result.error || 'Error sending the email.');
+        setFormError(result.error || 'Error sending the email.');
       }
-    } catch {
-      setError('Something went wrong. Please try again.');
+    } catch (err) {
+      setFormError('Something went wrong. Please try again.');
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -112,8 +114,12 @@ const WorksheetDetail: React.FC = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <button onClick={() => router.back()} className="btn btn-link p-0">
-                <i className="bi bi-arrow-left-circle"></i> Go Back
+              <button
+                onClick={() => router.back()}
+                className="btn btn-link p-0"
+                aria-label="Go back to previous page"
+              >
+                <i className="bi bi-arrow-left-circle" aria-hidden="true"></i> Go Back
               </button>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
@@ -122,26 +128,50 @@ const WorksheetDetail: React.FC = () => {
           </ol>
         </nav>
 
-        <h2 className={styles.heading}>
-          {worksheet ? worksheet.title : 'Loading worksheet...'}
-        </h2>
+        <h2 className={styles.heading}>{worksheet ? worksheet.title : 'Loading worksheet...'}</h2>
 
-        {error && <div className={styles.alertError}>❌ {error}</div>}
-        {successMessage && <div className={styles.alertSuccess}>✅ {successMessage}</div>}
+        {fetchError && (
+          <div className={styles.alertError} role="alert">
+            ❌ {fetchError}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className={styles.alertSuccess} role="alert">
+            {successMessage}
+          </div>
+        )}
 
         {worksheet && (
           <div className={styles.worksheetDetails}>
             <div className={styles.cardHeader}>
-              <img
+              <Image
                 src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
                 alt={worksheet.title}
+                width={300}
+                height={200}
                 className={styles.cardImage}
+                loading="lazy"
+                unoptimized={true}
               />
             </div>
-            <p><strong>Description:</strong> {worksheet.description || 'No description available'}</p>
-            <p><strong>Subject:</strong> {worksheet.subject || 'N/A'}</p>
-            <p><strong>Subtopic:</strong> {worksheet.subtopic || 'N/A'}</p>
-            <p><strong>Created At:</strong> {new Date(worksheet.created_at).toLocaleDateString()}</p>
+            <p>
+              <strong>Description:</strong> {worksheet.description || 'No description available'}
+            </p>
+            <p>
+              <strong>Subject:</strong> {worksheet.subject || 'N/A'}
+            </p>
+            <p>
+              <strong>Subtopic:</strong> {worksheet.subtopic || 'N/A'}
+            </p>
+            <p>
+              <strong>Created At:</strong>{' '}
+              {new Date(worksheet.created_at).toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </p>
           </div>
         )}
 
@@ -156,9 +186,18 @@ const WorksheetDetail: React.FC = () => {
             <div className={styles.formContainer}>
               <h3 className={styles.formTitle}>Enter Your Details</h3>
 
-              {error && <div className="text-danger">{error}</div>}
-              <form onSubmit={handleFormSubmit}>
+              {formError && (
+                <div className="text-danger" role="alert" style={{ marginBottom: '1em' }}>
+                  {formError}
+                </div>
+              )}
+
+              <form onSubmit={handleFormSubmit} noValidate>
+                <label htmlFor="name" className="visually-hidden">
+                  Your Name
+                </label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   placeholder="Your Name"
@@ -167,7 +206,12 @@ const WorksheetDetail: React.FC = () => {
                   className={styles.inputField}
                   required
                 />
+
+                <label htmlFor="email" className="visually-hidden">
+                  Your Email
+                </label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   placeholder="Your Email"
@@ -176,7 +220,12 @@ const WorksheetDetail: React.FC = () => {
                   className={styles.inputField}
                   required
                 />
+
+                <label htmlFor="mobile" className="visually-hidden">
+                  Your Mobile Number
+                </label>
                 <input
+                  id="mobile"
                   type="tel"
                   name="mobile"
                   placeholder="Your Mobile"
@@ -189,7 +238,14 @@ const WorksheetDetail: React.FC = () => {
                 <button type="submit" disabled={loading} className={styles.submitButton}>
                   {loading ? 'Sending...' : 'Send Email'}
                 </button>
-                <button type="button" className={styles.cancelButton} onClick={() => setShowForm(false)}>
+                <button
+                  type="button"
+                  className={styles.cancelButton}
+                  onClick={() => {
+                    setShowForm(false);
+                    setFormError('');
+                  }}
+                >
                   Cancel
                 </button>
               </form>

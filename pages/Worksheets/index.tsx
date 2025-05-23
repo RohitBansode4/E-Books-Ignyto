@@ -1,3 +1,5 @@
+// pages/Worksheets/index.tsx
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../../styles/Worksheets.module.css';
@@ -15,13 +17,14 @@ interface WorksheetData {
   subtopic?: string;
 }
 
-const WorksheetsList: React.FC = () => {
+// Move helper outside component to avoid re-creation
+const toSlug = (text: string) =>
+  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+
+const WorksheetsList = () => {
   const [worksheets, setWorksheets] = useState<WorksheetData[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-
-  const toSlug = (text: string) =>
-    text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
 
   useEffect(() => {
     async function fetchWorksheets() {
@@ -59,15 +62,17 @@ const WorksheetsList: React.FC = () => {
           </p>
 
           {loading && <p>Loading worksheets...</p>}
-          {error && <p className={styles.textDanger} role="alert">{error}</p>}
+          {error && (
+            <p className={styles.textDanger} role="alert">
+              {error}
+            </p>
+          )}
 
           {!loading && !error && (
             <div className={styles.cardContainer}>
               {worksheets.map((worksheet) => {
                 const subjectSlug = toSlug(worksheet.subject);
-                const subtopicSlug = worksheet.subtopic
-                  ? toSlug(worksheet.subtopic)
-                  : subjectSlug;
+                const subtopicSlug = worksheet.subtopic ? toSlug(worksheet.subtopic) : subjectSlug;
                 const worksheetSlug = toSlug(worksheet.title);
 
                 return (
@@ -82,28 +87,30 @@ const WorksheetsList: React.FC = () => {
                         id: worksheet.id.toString(),
                       },
                     }}
-                    className={styles.card} // <-- directly on Link
-                    aria-label={`View worksheet: ${worksheet.title}`}
+                    passHref
+                    legacyBehavior
                   >
-                    <div className={styles.cardHeader}>
-                      <Image
-                        src={
-                          worksheet.thumbnail_url ||
-                          'https://via.placeholder.com/300x200.png?text=No+Thumbnail'
-                        }
-                        alt={worksheet.title || 'Worksheet Thumbnail'}
-                        width={300}
-                        height={200}
-                        className={styles.cardImage}
-                        loading="lazy"
-                        unoptimized={false}
-                      />
-                      <h4 className={styles.cardTitle}>{worksheet.title}</h4>
-                    </div>
-                    <p className={styles.cardSubtitle}>{worksheet.description}</p>
-                    <span className={styles.cardButton} aria-hidden="true">
-                      View Worksheet
-                    </span>
+                    <a className={styles.card} aria-label={`View worksheet: ${worksheet.title}`}>
+                      <div className={styles.cardHeader}>
+                        <Image
+                          src={
+                            worksheet.thumbnail_url ||
+                            'https://via.placeholder.com/300x200.png?text=No+Thumbnail'
+                          }
+                          alt={worksheet.title || 'Worksheet Thumbnail'}
+                          width={300}
+                          height={200}
+                          className={styles.cardImage}
+                          loading="lazy"
+                          unoptimized={true} // Avoid optimization issues with external URLs
+                        />
+                        <h4 className={styles.cardTitle}>{worksheet.title}</h4>
+                      </div>
+                      <p className={styles.cardSubtitle}>{worksheet.description}</p>
+                      <span className={styles.cardButton} aria-hidden="true">
+                        View Worksheet
+                      </span>
+                    </a>
                   </Link>
                 );
               })}

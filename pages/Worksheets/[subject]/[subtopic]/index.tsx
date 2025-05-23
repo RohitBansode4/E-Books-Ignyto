@@ -2,6 +2,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from '../../../../styles/Worksheets.module.css';
 import Header from '@/components/Header';
 
@@ -34,7 +35,9 @@ const SubjectSubtopicWorksheets = () => {
       }
 
       try {
-        const res = await fetch('/api/worksheet'); 
+        // Ideally, you should filter server-side instead of fetching all and filtering client-side
+        // But respecting your current API, here we fetch all then filter locally
+        const res = await fetch('/api/worksheet');
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.error || 'Failed to load worksheets.');
@@ -50,8 +53,9 @@ const SubjectSubtopicWorksheets = () => {
         } else {
           setError(data.message || 'Failed to load worksheets.');
         }
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch worksheets.');
+      } catch (err: unknown) {
+        if (err instanceof Error) setError(err.message);
+        else setError('Failed to fetch worksheets.');
       } finally {
         setLoading(false);
       }
@@ -65,35 +69,55 @@ const SubjectSubtopicWorksheets = () => {
   }, [subject, subtopic]);
 
   if (loading) return <p>Loading worksheets...</p>;
-  if (error) return <p className="text-danger">{error}</p>;
+  if (error)
+    return (
+      <p className={styles.textDanger} role="alert">
+        {error}
+      </p>
+    );
 
   return (
     <>
       <Header />
       <div className={styles.librarySection}>
         {/* Breadcrumb */}
-        <nav aria-label="breadcrumb" style={{ backgroundColor: '#f8f9fa', borderRadius: 5, padding: '10px 20px' }}>
+        <nav
+          aria-label="breadcrumb"
+          style={{ backgroundColor: '#f8f9fa', borderRadius: 5, padding: '10px 20px' }}
+        >
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <button
-                onClick={() => router.push('/')}
-                className="btn btn-link p-0 text-decoration-none"
-                style={{ fontSize: '1.1rem' }}
+              <Link href="/" legacyBehavior>
+                <a
+                  className="btn btn-link p-0 text-decoration-none"
+                  style={{ fontSize: '1.1rem' }}
+                >
+                  <i className="bi bi-house-door" aria-hidden="true"></i> Home
+                </a>
+              </Link>
+            </li>
+            <li className="breadcrumb-item">
+              <Link href="/Worksheets" legacyBehavior>
+                <a className="text-decoration-none" style={{ fontSize: '1.1rem' }}>
+                  Worksheets
+                </a>
+              </Link>
+            </li>
+            <li className="breadcrumb-item">
+              <Link
+                href={`/Worksheets/${encodeURIComponent(toSlug(subject as string))}`}
+                legacyBehavior
               >
-                <i className="bi bi-house-door"></i> Home
-              </button>
-            </li>
-            <li className="breadcrumb-item">
-              <Link href="/Worksheets" className="text-decoration-none">
-                Worksheets
+                <a className="text-decoration-none" style={{ fontSize: '1.1rem' }}>
+                  {subject}
+                </a>
               </Link>
             </li>
-            <li className="breadcrumb-item">
-              <Link href={`/Worksheets/${toSlug(subject as string)}`} className="text-decoration-none">
-                {subject}
-              </Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page" style={{ color: '#6c757d' }}>
+            <li
+              className="breadcrumb-item active"
+              aria-current="page"
+              style={{ color: '#6c757d', fontSize: '1.1rem' }}
+            >
               {subtopic}
             </li>
           </ol>
@@ -118,20 +142,29 @@ const SubjectSubtopicWorksheets = () => {
                     worksheet: toSlug(worksheet.title),
                   },
                 }}
-                className={styles.cardLink}
+                legacyBehavior
               >
-                <div className={styles.card}>
+                <a className={styles.card} aria-label={`View worksheet: ${worksheet.title}`}>
                   <div className={styles.cardHeader}>
-                    <img
-                      src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
+                    <Image
+                      src={
+                        worksheet.thumbnail_url ||
+                        'https://via.placeholder.com/300x200.png?text=No+Thumbnail'
+                      }
                       alt={worksheet.title}
+                      width={300}
+                      height={200}
                       className={styles.cardImage}
+                      loading="lazy"
+                      unoptimized={true}
                     />
                     <h4 className={styles.cardTitle}>{worksheet.title}</h4>
                   </div>
                   <p className={styles.cardSubtitle}>{worksheet.description}</p>
-                  <button className={styles.cardButton}>View Worksheet</button>
-                </div>
+                  <span className={styles.cardButton} aria-hidden="true">
+                    View Worksheet
+                  </span>
+                </a>
               </Link>
             ))}
           </div>
