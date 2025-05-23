@@ -134,3 +134,32 @@
 .ctaButton:hover {
   background-color: #18a4a4; 
 }
+
+/* Responsive layout for small screens */
+@media (max-width: 768px) {
+  .iconsContainer {
+    flex-direction: column; /* Stack icons vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 30px; /* Add spacing between stacked icon boxes */
+  }
+
+  .iconBox {
+    max-width: 100%; /* Let icon boxes take up more width if needed */
+  }
+  .receiverMessage .messageText {
+    font-size: 0.7rem; /* e.g., 16px */
+    color: #333;
+  }
+
+  .senderMessage .messageText {
+    font-size: 0.7rem;
+    color: #333;
+  }
+  @media (max-width: 768px) {
+    .messagesContainer {
+      padding: 10px 10px; /* Reduce padding on smaller screens */
+      width: 95%; /* Optional: make it a bit wider */
+    }
+  }
+
+}

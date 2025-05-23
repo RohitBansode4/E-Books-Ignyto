@@ -12,7 +12,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'via.placeholder.com',
       },
-    ],
+    ],    
+  },
+  env: {
+    API_BASE_URL: 'https://worksheets.asvabwarriors.org',
   },
 };
 

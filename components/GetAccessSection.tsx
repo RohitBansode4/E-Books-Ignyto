@@ -9,7 +9,17 @@ const GetAccessSection: React.FC = () => {
         <p className={styles.GetAccessSubtitle}>
           {/* Join thousands of educators and students who are unlocking their potential with our tailored programs. Start now and see the difference! */}
         </p>
-        <button className={styles.GetAccessCtaButton}>Join for free</button>
+        <button
+          className={styles.GetAccessCtaButton}
+          onClick={() => {
+            // Replace with your actual navigation or action
+            window.location.href = '/get-access';
+          }}
+          aria-label="Join for free"
+          type="button"
+        >
+          Join for free
+        </button>
       </div>
     </div>
   );

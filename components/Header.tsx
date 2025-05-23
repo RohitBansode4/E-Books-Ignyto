@@ -19,6 +19,8 @@ type Subtopic = {
   subject_id: string;
 };
 
+const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
+
 const Header: React.FC = () => {
   const [bgColor, setBgColor] = useState('black');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +34,7 @@ const Header: React.FC = () => {
 
   const router = useRouter();
 
-  // Update isMobile on window resize
+  // Responsive detection
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 992);
     checkMobile();
@@ -40,13 +42,12 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Debounced subtopic fetch
   const debounceFetchSubtopics = useRef(
     debounce(async (subjectId: string) => {
       if (!subtopics[subjectId]) {
         try {
-          const response = await fetch(
-            `https://worksheets.asvabwarriors.org/Subjects/Subtopics/api/get_subtopics.php?subject_id=${subjectId}`
-          );
+          const response = await fetch(`/api/subtopics?subject_id=${subjectId}`);
           if (!response.ok) throw new Error('Failed to fetch subtopics');
           const data = await response.json();
           setSubtopics((prev) => ({ ...prev, [subjectId]: data.subtopics }));
@@ -57,10 +58,16 @@ const Header: React.FC = () => {
     }, 150)
   );
 
+  // Cancel debounce on unmount
+  useEffect(() => {
+    return () => debounceFetchSubtopics.current.cancel();
+  }, []);
+
+  // Fetch subjects on mount
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await fetch('https://worksheets.asvabwarriors.org/Subjects/api/get_subjects.php');
+        const response = await fetch('/api/subjects');
         if (!response.ok) throw new Error('Failed to fetch subjects');
         const data = await response.json();
         setSubjects(data);
@@ -68,7 +75,6 @@ const Header: React.FC = () => {
         setError(error instanceof Error ? error.message : 'An unexpected error occurred.');
       }
     };
-
     fetchSubjects();
   }, []);
 
@@ -90,15 +96,20 @@ const Header: React.FC = () => {
     debounceFetchSubtopics.current(subjectId);
   };
 
-  const handleSubjectClick = (subjectName: string) => {
-    const slug = subjectName.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/Worksheets/${slug}`);
+  const handleSubjectClick = async (subjectName: string) => {
+    try {
+      await router.push(`/Worksheets/${toSlug(subjectName)}`);
+    } catch {
+      setError('Navigation error. Please try again.');
+    }
   };
 
-  const handleSubtopicClick = (subjectName: string, subtopicName: string) => {
-    const sSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
-    const stSlug = subtopicName.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/Worksheets/${sSlug}/${stSlug}`);
+  const handleSubtopicClick = async (subjectName: string, subtopicName: string) => {
+    try {
+      await router.push(`/Worksheets/${toSlug(subjectName)}/${toSlug(subtopicName)}`);
+    } catch {
+      setError('Navigation error. Please try again.');
+    }
   };
 
   const toggleMobileDropdown = (key: 'subjects' | 'worksheets') => {
@@ -113,7 +124,13 @@ const Header: React.FC = () => {
         </Link>
       </Navbar.Brand>
 
-      <Navbar.Toggle aria-controls="navbarNavDropdown" onClick={handleToggleClick} className={styles.navbarToggler}>
+      <Navbar.Toggle
+        aria-controls="navbarNavDropdown"
+        onClick={handleToggleClick}
+        className={styles.navbarToggler}
+        aria-expanded={menuOpen}
+        aria-label="Toggle navigation"
+      >
         <FaBars className={styles.navbarTogglerIcon} />
       </Navbar.Toggle>
 
@@ -126,6 +143,8 @@ const Header: React.FC = () => {
               className={styles.navDropdownButton}
               onClick={() => isMobile && toggleMobileDropdown('subjects')}
               type="button"
+              aria-haspopup="true"
+              aria-expanded={mobileDropdownOpen.subjects}
             >
               SUBJECTS <FaChevronDown className={styles.dropdownArrow} />
             </button>
@@ -174,6 +193,8 @@ const Header: React.FC = () => {
               className={styles.navDropdownButton}
               onClick={() => isMobile && toggleMobileDropdown('worksheets')}
               type="button"
+              aria-haspopup="true"
+              aria-expanded={mobileDropdownOpen.worksheets}
             >
               WORKSHEETS <FaChevronDown className={styles.dropdownArrow} />
             </button>
@@ -192,6 +213,9 @@ const Header: React.FC = () => {
           </Link>
         </Nav>
       </Navbar.Collapse>
+
+      {/* Error message display */}
+      {error && <div className={styles.errorMessage}>{error}</div>}
     </Navbar>
   );
 };

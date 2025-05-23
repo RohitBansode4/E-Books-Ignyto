@@ -2,27 +2,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem 2rem; /* Added more padding to make the section taller */
+  padding: 3rem 2rem;
   background-color: #f4f4f4;
-  position: relative; /* To position the images absolutely */
+  position: relative;
 }
 
 .textContainer {
   text-align: center;
   margin-bottom: 2rem;
-  max-width: 800px;  /* Added max-width to control text wrapping */
+  max-width: 800px;
   width: 100%;
 }
 
 .heading {
-  font-size: 2.5rem;  /* Increased font size for better prominence */
+  font-size: 2.5rem;
   font-weight: bold;
   color: #333;
   margin-bottom: 1rem;
 }
 
 .subtitle {
-  font-size: 1.4rem; /* Slightly bigger subtitle for better visibility */
+  font-size: 1.4rem;
   color: #555;
 }
 
@@ -31,9 +31,9 @@
   color: white;
   padding: 0.75rem 2rem;
   max-width: 250px;
-  width: 100%; /* Make button full width */
+  width: 100%;
   border: none;
-  border-radius: 50px; 
+  border-radius: 50px;
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease;
@@ -43,83 +43,23 @@
   background-color: #4e5ac4;
 }
 
-.imagesContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 3rem;
-}
-
-.leftImage,
-.rightImage,
-.topLeftImage,
-.topRightImage,
-.bottomLeftImage,
-.bottomRightImage {
-  position: absolute;
-  width: 150px;  /* Increased size for more visibility */
-  height: auto;
-  object-fit: contain;  /* Ensures the SVG aspect ratio is maintained */
-}
-
-/* Position the left image at the top left corner */
-.leftImage {
-  left: 5%;   /* Adjusted position to make the image closer to the left */
-  top: 5%;     /* Positioned at the very top of the container */
-}
-
-/* Position the right image at the top right corner */
-.rightImage {
-  right: 5%;  /* Adjusted position to make the image closer to the right */
-  top: 5%;      /* Positioned at the very top of the container */
-}
-
-/* Position the bottom-left image */
-.bottomLeftImage {
-  left: 5%;
-  bottom: 5%;
-}
-
-/* Position the bottom-right image */
-.bottomRightImage {
-  right: 5%;
-  bottom: 5%;
-}
-
-/* Position the top-left image */
-.topLeftImage {
-  left: 5%;
-  top: 5%;
-}
-
-/* Position the top-right image */
-.topRightImage {
-  right: 5%;
-  top: 5%;
-}
-
 /* Media Queries for Mobile View */
 @media (max-width: 768px) {
-  .imagesContainer {
-    display: none; /* Hide images on mobile devices */
-  }
-
   .textContainer {
-    padding: 1rem; /* Reduce padding for smaller screens */
-    max-width: 100%; /* Make text container full width on mobile */
+    padding: 1rem;
+    max-width: 100%;
   }
 
   .heading {
-    font-size: 1.8rem; /* Slightly smaller heading on mobile */
+    font-size: 1.8rem;
   }
 
   .subtitle {
-    font-size: 1.1rem; /* Slightly smaller subtitle on mobile */
+    font-size: 1.1rem;
   }
 
   .ctaButton {
-    font-size: 1rem; /* Adjust button size for mobile */
+    font-size: 1rem;
     padding: 0.6rem 1.5rem;
   }
 }

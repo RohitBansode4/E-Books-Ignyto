@@ -1,3 +1,5 @@
+// UnlockSection.tsx
+
 import React from 'react';
 import styles from '../styles/UnlockSection.module.css';
 import Image from 'next/image';
@@ -25,10 +27,11 @@ const CustomSection: React.FC = () => {
       <div className={styles.imageContainer}>
         <Image
           src="/images/UnlockSection_Image.png"
-          alt="Centered Image"
-          width={500} // Adjust as needed
-          height={300} // Adjust as needed
+          alt="Students engaged in guided learning activities"
+          width={500}
+          height={300}
           className={styles.centeredImage}
+          priority // optional: preload for better performance
         />
       </div>
 
@@ -40,7 +43,10 @@ const CustomSection: React.FC = () => {
         </p>
       </div>
 
-      <a href="#" className={styles.ctaButton}>Learn more</a>
+      {/* Updated CTA with real link */}
+      <a href="/premium" className={styles.ctaButton}>
+        Learn more
+      </a>
     </div>
   );
 };

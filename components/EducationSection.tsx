@@ -1,7 +1,8 @@
-import React from 'react';
-import styles from '../styles/EducationSection.module.css'; // Assuming the CSS module is named EducationSection.module.css
-import Image from 'next/image';
+// EducationSection.tsx
 
+import React from 'react';
+import styles from '../styles/EducationSection.module.css';
+import Image from 'next/image';
 
 const EducationSection: React.FC = () => {
   return (
@@ -11,24 +12,16 @@ const EducationSection: React.FC = () => {
         <p className={styles.subtitle}>
           Our comprehensive, standards-aligned supplemental program empowers school administrators and teachers to help students build essential skills in math, reading, writing, science, social studies, and more.
         </p>
-        <button className={styles.ctaButton}>
+        <button
+          className={styles.ctaButton}
+          onClick={() => {
+            // Replace with your actual navigation or action
+            window.location.href = '/get-started';
+          }}
+          aria-label="Get started with Education.com for schools and districts"
+        >
           Get Started
         </button>
-      </div>
-      
-      <div className={styles.imagesContainer}>
-        <Image
-          src="/images/Education_left.svg"
-          alt="Education"
-          className={styles.leftImage}
-          fill
-        />
-        <Image
-          src="/images/Education_right.svg"
-          alt="Learning"
-          className={styles.rightImage}
-          fill
-        />
       </div>
     </div>
   );

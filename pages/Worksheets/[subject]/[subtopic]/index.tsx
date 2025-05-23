@@ -14,6 +14,9 @@ interface Worksheet {
   subtopic: string;
 }
 
+const toSlug = (text: string) =>
+  text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+
 const SubjectSubtopicWorksheets = () => {
   const router = useRouter();
   const { subject, subtopic } = router.query;
@@ -22,32 +25,41 @@ const SubjectSubtopicWorksheets = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const toSlug = (text: string) =>
-    text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
-
   useEffect(() => {
     const fetchWorksheets = async () => {
+      if (typeof subject !== 'string' || typeof subtopic !== 'string') {
+        setError('Invalid subject or subtopic');
+        setLoading(false);
+        return;
+      }
+
       try {
-        const res = await fetch('https://worksheets.asvabwarriors.org/Worksheets/api/getWorksheet.php');
+        const res = await fetch('/api/worksheet'); 
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || 'Failed to load worksheets.');
+        }
         const data = await res.json();
 
         if (data.status === 'success') {
-          const filtered = data.data.filter((w: Worksheet) =>
-            toSlug(w.subject) === toSlug(subject as string) &&
-            toSlug(w.subtopic) === toSlug(subtopic as string)
+          const filteredWorksheets = data.data.filter((w: Worksheet) =>
+            toSlug(w.subject) === toSlug(subject) &&
+            toSlug(w.subtopic) === toSlug(subtopic)
           );
-          setWorksheets(filtered);
+          setWorksheets(filteredWorksheets);
         } else {
           setError(data.message || 'Failed to load worksheets.');
         }
-      } catch {
-        setError('Failed to fetch worksheets.');
+      } catch (err: any) {
+        setError(err.message || 'Failed to fetch worksheets.');
       } finally {
         setLoading(false);
       }
     };
 
     if (subject && subtopic) {
+      setLoading(true);
+      setError('');
       fetchWorksheets();
     }
   }, [subject, subtopic]);
@@ -60,7 +72,7 @@ const SubjectSubtopicWorksheets = () => {
       <Header />
       <div className={styles.librarySection}>
         {/* Breadcrumb */}
-        <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb" style={{ backgroundColor: '#f8f9fa', borderRadius: 5, padding: '10px 20px' }}>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <button
@@ -72,17 +84,16 @@ const SubjectSubtopicWorksheets = () => {
               </button>
             </li>
             <li className="breadcrumb-item">
-            <Link href="/Worksheets" className="text-decoration-none">
-              Worksheets
-            </Link>
-          </li>
-          <li className="breadcrumb-item">
-            <Link href={`/Worksheets/${toSlug(subject as string)}`} className="text-decoration-none">
-              {subject}
-            </Link>
-          </li>
-
-            <li className="breadcrumb-item active" aria-current="page">
+              <Link href="/Worksheets" className="text-decoration-none">
+                Worksheets
+              </Link>
+            </li>
+            <li className="breadcrumb-item">
+              <Link href={`/Worksheets/${toSlug(subject as string)}`} className="text-decoration-none">
+                {subject}
+              </Link>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page" style={{ color: '#6c757d' }}>
               {subtopic}
             </li>
           </ol>

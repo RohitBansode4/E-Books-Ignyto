@@ -3,16 +3,25 @@
   padding: 20px;
   margin: 0 auto;
   background-color: #ffffff;
-  height: 100vh;
+  height: 100%;
 }
 
 .pageWrapper {
   display: flex;
+  flex-direction: row; /* default: side by side */
   gap: 20px;
   padding: 20px;
   background-color: #ffffff;
   min-height: 100vh;
 }
+
+/* On smaller screens, stack sidebar above content */
+@media screen and (max-width: 1100px) {
+  .pageWrapper {
+    flex-direction: column;
+  }
+}
+
 
 .contentArea {
   flex: 1;
@@ -107,6 +116,12 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Adding depth on hover */
 }
 
+.card:focus-visible {
+  outline: 3px solid #007bff;
+  outline-offset: 2px;
+}
+
+
 .cardHeader {
   position: relative;
   text-align: center;
@@ -134,6 +149,7 @@
 .cardSubtitle {
   font-size: 1rem;
   padding: 0 15px 10px;
+  text-decoration: none;
   color: #555;
   transition: color 0.3s ease;
 }

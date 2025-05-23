@@ -14,10 +14,6 @@ interface WorksheetData {
   thumbnail_url: string;
 }
 
-// Convert slug to readable title, e.g. "number-series-practice" → "Number Series Practice"
-const fromSlug = (slug: string) =>
-  slug.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-
 const WorksheetDetail: React.FC = () => {
   const router = useRouter();
   const { subject, subtopic, worksheet: slug } = router.query;
@@ -29,44 +25,34 @@ const WorksheetDetail: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Fetch worksheet details by slug and match with subject/subtopic
   useEffect(() => {
-    if (!slug || !subject || !subtopic) return;
+    if (!router.isReady || !slug || !subject || !subtopic) return;
 
     const fetchWorksheet = async () => {
       setError('');
-      setWorksheet(null);
       setSuccessMessage('');
+      setWorksheet(null);
 
       try {
-        const originalTitle = fromSlug(slug as string);
-
         const res = await fetch(
-          `https://worksheets.asvabwarriors.org/Worksheets/api/getWorksheet.php?title=${encodeURIComponent(originalTitle)}`
+          `/api/worksheets/${encodeURIComponent(subject as string)}/${encodeURIComponent(subtopic as string)}/${encodeURIComponent(slug as string)}`
         );
+
         const data = await res.json();
 
-        if (data.status === 'success' && data.data?.length > 0) {
-          const match = data.data.find((w: WorksheetData) =>
-            w.subject.toLowerCase() === (subject as string).toLowerCase() &&
-            w.subtopic.toLowerCase() === (subtopic as string).toLowerCase()
-          );
-
-          if (match) {
-            setWorksheet(match);
-          } else {
-            setError('Worksheet not found or does not match the URL.');
-          }
-        } else {
-          setError('Worksheet not found.');
+        if (!res.ok || data.status !== 'success' || !data.data) {
+          setError(data.error || 'Worksheet not found.');
+          return;
         }
+
+        setWorksheet(data.data);
       } catch {
         setError('Failed to load worksheet.');
       }
     };
 
     fetchWorksheet();
-  }, [slug, subject, subtopic]);
+  }, [router.isReady, slug, subject, subtopic]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,8 +61,8 @@ const WorksheetDetail: React.FC = () => {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const { name, email, mobile } = userDetails;
+
     if (!name || !email || !mobile) {
       setError('Please fill in all fields.');
       return;
@@ -92,10 +78,15 @@ const WorksheetDetail: React.FC = () => {
     setSuccessMessage('');
 
     try {
-      const res = await fetch('https://worksheets.asvabwarriors.org/Worksheets/api/send-email.php', {
+      const res = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...userDetails, worksheet_id: worksheet.id, subject, subtopic }), // Pass subject and subtopic
+        body: JSON.stringify({
+          ...userDetails,
+          worksheet_id: worksheet.id,
+          subject,
+          subtopic,
+        }),
       });
 
       const result = await res.json();
@@ -114,10 +105,6 @@ const WorksheetDetail: React.FC = () => {
     }
   };
 
-  const goBack = () => {
-    router.back();
-  };
-
   return (
     <>
       <Header />
@@ -125,7 +112,7 @@ const WorksheetDetail: React.FC = () => {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <button onClick={goBack} className="btn btn-link p-0">
+              <button onClick={() => router.back()} className="btn btn-link p-0">
                 <i className="bi bi-arrow-left-circle"></i> Go Back
               </button>
             </li>
@@ -141,8 +128,6 @@ const WorksheetDetail: React.FC = () => {
 
         {error && <div className={styles.alertError}>❌ {error}</div>}
         {successMessage && <div className={styles.alertSuccess}>✅ {successMessage}</div>}
-
-        {!worksheet && error && <p className="text-danger">{error}</p>}
 
         {worksheet && (
           <div className={styles.worksheetDetails}>
@@ -160,11 +145,7 @@ const WorksheetDetail: React.FC = () => {
           </div>
         )}
 
-        {successMessage && !showForm && (
-          <p className={styles.successMessage}>{successMessage}</p>
-        )}
-
-        {worksheet && (
+        {!showForm && worksheet && (
           <button onClick={() => setShowForm(true)} className={styles.cardButton}>
             Request Worksheet Link
           </button>
