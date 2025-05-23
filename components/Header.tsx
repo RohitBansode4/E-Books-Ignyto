@@ -156,17 +156,19 @@ const Header: React.FC = () => {
                     {((!isMobile && activeSubjectId === subject.id) || (isMobile && expandedSubjects[subject.id])) &&
                       subtopics[subject.id] && (
                         <div className={styles.submenu}>
-                          {subtopics[subject.id].map((subtopic) => (
-                            <div
-                              key={subtopic.id}
-                              className={styles.customDropdownItem}
-                              onClick={() => handleSubtopicClick(subject.name, subtopic.name)}
-                            >
-                              {subtopic.name}
-                            </div>
-                          ))}
+                          <div className={styles.subtopicScrollContainer}>
+                            {subtopics[subject.id].map((subtopic) => (
+                              <div
+                                key={subtopic.id}
+                                className={styles.customDropdownItem}
+                                onClick={() => handleSubtopicClick(subject.name, subtopic.name)}
+                              >
+                                {subtopic.name}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      )}
+                    )}
                   </div>
                 ))}
               </div>
