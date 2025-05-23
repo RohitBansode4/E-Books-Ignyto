@@ -1,8 +1,10 @@
+// pages/Worksheets/[subject]/[subtopic]/[worksheet].tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import styles from '../../../../styles/Worksheets.module.css';
+import styles from '../../../../styles/WorksheetDetail.module.css';
 import Header from '@/components/Header';
+import Link from 'next/link';
 
 interface WorksheetData {
   id: number;
@@ -93,7 +95,7 @@ const WorksheetDetail: React.FC = () => {
       const result = await res.json();
 
       if (result.success) {
-        setSuccessMessage(`✅ Email successfully sent to ${userDetails.email}. Please check your inbox.`);
+        setSuccessMessage(`✅ Email successfully sent to ${userDetails.email}. Please check your inbox. Note: The download link is valid for only 4 hours, so make sure to download the worksheet before it expires.`);
         setShowForm(false);
         setUserDetails({ name: '', email: '', mobile: '' });
       } else {
@@ -111,23 +113,48 @@ const WorksheetDetail: React.FC = () => {
     <>
       <Header />
       <div className={styles.librarySection}>
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
+        {/* Breadcrumb with Home and Worksheets navigation */}
+        <nav
+          aria-label="breadcrumb"
+          style={{
+            backgroundColor: '#f8f9fa',
+            borderRadius: '5px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '10px 20px',
+            marginBottom: '1rem',
+          }}
+        >
+          <ol className="breadcrumb" style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', gap: '0.5rem' }}>
             <li className="breadcrumb-item">
-              <button
-                onClick={() => router.back()}
-                className="btn btn-link p-0"
-                aria-label="Go back to previous page"
-              >
-                <i className="bi bi-arrow-left-circle" aria-hidden="true"></i> Go Back
-              </button>
+              <Link href="/" legacyBehavior>
+                <a
+                  className="btn btn-link p-0 text-decoration-none"
+                  style={{ fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}
+                >
+                  <i className="bi bi-house-door" aria-hidden="true"></i> Home
+                </a>
+              </Link>
             </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              {worksheet ? worksheet.title : 'Worksheet Detail'}
+            <li className="breadcrumb-item">
+              <Link href="/Worksheets" legacyBehavior>
+                <a
+                  className="btn btn-link p-0 text-decoration-none"
+                  style={{ fontSize: '1.1rem' }}
+                >
+                  Worksheets
+                </a>
+              </Link>
+            </li>
+            <li
+              className="breadcrumb-item active"
+              aria-current="page"
+              style={{ color: '#6c757d', fontSize: '1rem', alignSelf: 'center' }}
+            >
+              {subject || 'Loading...'}
             </li>
           </ol>
         </nav>
-
+        
         <h2 className={styles.heading}>{worksheet ? worksheet.title : 'Loading worksheet...'}</h2>
 
         {fetchError && (
@@ -144,34 +171,38 @@ const WorksheetDetail: React.FC = () => {
 
         {worksheet && (
           <div className={styles.worksheetDetails}>
-            <div className={styles.cardHeader}>
-              <Image
-                src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
-                alt={worksheet.title}
-                width={300}
-                height={200}
-                className={styles.cardImage}
-                loading="lazy"
-                unoptimized={true}
-              />
+            <div className={styles.worksheetWrapper}>
+              <div className={styles.cardHeader}>
+                <Image
+                  src={worksheet.thumbnail_url || 'https://via.placeholder.com/300x200.png?text=No+Thumbnail'}
+                  alt={worksheet.title}
+                  width={300}
+                  height={200}
+                  className={styles.cardImage}
+                  loading="lazy"
+                  unoptimized={true}
+                />
+              </div>
+              <div className={styles.worksheetContent}>
+                <p>
+                  <strong>Description:</strong> {worksheet.description || 'No description available'}
+                </p>
+                <p>
+                  <strong>Subject:</strong> {worksheet.subject || 'N/A'}
+                </p>
+                <p>
+                  <strong>Subtopic:</strong> {worksheet.subtopic || 'N/A'}
+                </p>
+                <p>
+                  <strong>Created At:</strong>{' '}
+                  {new Date(worksheet.created_at).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
+              </div>
             </div>
-            <p>
-              <strong>Description:</strong> {worksheet.description || 'No description available'}
-            </p>
-            <p>
-              <strong>Subject:</strong> {worksheet.subject || 'N/A'}
-            </p>
-            <p>
-              <strong>Subtopic:</strong> {worksheet.subtopic || 'N/A'}
-            </p>
-            <p>
-              <strong>Created At:</strong>{' '}
-              {new Date(worksheet.created_at).toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </p>
           </div>
         )}
 
