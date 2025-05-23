@@ -265,7 +265,6 @@
 }
 
 /* === Responsive styles for Mobile (<992px) === */
-
 @media (max-width: 991.98px) {
   .navContainer {
     flex-direction: column;
@@ -361,11 +360,60 @@
   }
 }
 
-
-/* Hide subtopic toggle on desktop */
-
 @media (min-width: 992px) {
   .subtopicToggle {
     display: none;
+  }
+
+  /* Expanded submenu styles on desktop */
+  .submenu {
+    position: absolute;
+    top: 0;           /* align top of submenu with subject container top */
+    left: 100%;       /* directly to the right of subject container */
+    width: 600px;     /* adjust width as needed */
+    max-width: none;
+    background-color: #454545;
+    padding: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Show submenu on hover */
+  .subjectItem:hover .submenu {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* Flex layout for subtopic container */
+  .subtopicScrollContainer {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1rem;
+  }
+
+  /* Subtopic item styling for flex layout */
+  .subtopicScrollContainer > .customDropdownItem {
+    flex: 2 1 30%;
+    min-width: 140px;
+    white-space: normal;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+
+  .customDropdownItem:hover {
+    background-color: #00abefa9;
+    color: #111;
   }
 }
