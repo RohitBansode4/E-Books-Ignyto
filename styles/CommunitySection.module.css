@@ -72,6 +72,14 @@
   margin-bottom: 20px;
 }
 
+.receiverMessage .messageText {
+    color: #333;
+  }
+
+  .senderMessage .messageText {    
+    color: #333;
+  }
+
 /* Receiver Message (Left aligned) */
 .receiverMessage {
   text-align: left;
