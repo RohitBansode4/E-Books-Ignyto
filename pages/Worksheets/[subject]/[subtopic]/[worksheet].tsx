@@ -157,11 +157,17 @@ const WorksheetDetail: React.FC = () => {
         
         <h2 className={styles.heading}>{worksheet ? worksheet.title : 'Loading worksheet...'}</h2>
 
-        {fetchError && (
-          <div className={styles.alertError} role="alert">
+       {fetchError && (
+          <div
+            className={`${styles.alertError} ${
+              fetchError === 'No worksheets found for this subtopic.' ? styles.backendMessage : ''
+            }`}
+            role="alert"
+          >
             ❌ {fetchError}
           </div>
         )}
+
 
         {successMessage && (
           <div className={styles.alertSuccess} role="alert">
