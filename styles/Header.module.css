@@ -20,6 +20,7 @@
   max-height: 80px;
   max-width: 80px;
   border-radius: 50px;
+  margin-left: 40px;
 }
 
 .navbarToggler {
@@ -175,7 +176,7 @@
 }
 
 .customDropdownItem:hover {
-  background-color: #00adef;
+  background-color: #00abefa9;
   color: #111;
 }
 
@@ -188,6 +189,39 @@
   padding: 0.5rem 1rem;
   color: white;
   font-size: 0.95rem;
+}
+
+/* Scroll container for subtopics - always scroll if too tall */
+
+.subtopicScrollContainer {
+  max-height: 120px;  /* adjust height to show ~4-5 items */
+  overflow-y: auto;
+  padding-right: 0.5rem; /* prevent scrollbar overlapping text */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #00adef transparent;
+}
+
+/* Webkit scrollbar styling */
+.subtopicScrollContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.subtopicScrollContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.subtopicScrollContainer::-webkit-scrollbar-thumb {
+  background-color: #00adef;
+  border-radius: 3px;
+}
+
+/* On desktop, no max-height and no scrollbar needed */
+@media (min-width: 992px) {
+  .subtopicScrollContainer {
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+  }
 }
 
 /* === Subtopic Toggle Button === */
