@@ -17,11 +17,11 @@ interface WorksheetData {
   subtopic?: string;
 }
 
-// Move helper outside component to avoid re-creation
+// Helper function moved outside the component to avoid recreation
 const toSlug = (text: string) =>
   text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
 
-const WorksheetsList = () => {
+const WorksheetsList: React.FC = () => {
   const [worksheets, setWorksheets] = useState<WorksheetData[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ const WorksheetsList = () => {
         } else {
           setError(data.message || 'Failed to load worksheets.');
         }
-      } catch (err) {
+      } catch {
         setError('Failed to fetch worksheets.');
       } finally {
         setLoading(false);
@@ -87,10 +87,9 @@ const WorksheetsList = () => {
                         id: worksheet.id.toString(),
                       },
                     }}
-                    passHref
-                    legacyBehavior
+                    aria-label={`View worksheet: ${worksheet.title}`}
                   >
-                    <a className={styles.card} aria-label={`View worksheet: ${worksheet.title}`}>
+                    <div className={styles.card}>
                       <div className={styles.cardHeader}>
                         <Image
                           src={
@@ -110,7 +109,7 @@ const WorksheetsList = () => {
                       <span className={styles.cardButton} aria-hidden="true">
                         View Worksheet
                       </span>
-                    </a>
+                    </div>
                   </Link>
                 );
               })}

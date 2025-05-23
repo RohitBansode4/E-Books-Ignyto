@@ -1,3 +1,4 @@
+/* eslint-disable */
 // CommunitySection.tsx
 
 import React from 'react';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from '../styles/EducationSection.module.css';
-import Image from 'next/image';
+
 
 const EducationSection: React.FC = () => {
   return (

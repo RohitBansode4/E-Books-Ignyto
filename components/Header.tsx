@@ -22,7 +22,7 @@ type Subtopic = {
 const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
 
 const Header: React.FC = () => {
-  const [bgColor, setBgColor] = useState('black');
+  const bgColor = 'black'; // hardcoded background color
   const [menuOpen, setMenuOpen] = useState(false);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subtopics, setSubtopics] = useState<Record<string, Subtopic[]>>({});
@@ -58,9 +58,10 @@ const Header: React.FC = () => {
     }, 150)
   );
 
-  // Cancel debounce on unmount
+  // Cancel debounce on unmount safely
   useEffect(() => {
-    return () => debounceFetchSubtopics.current.cancel();
+    const debounced = debounceFetchSubtopics.current;
+    return () => debounced.cancel();
   }, []);
 
   // Fetch subjects on mount
@@ -120,7 +121,13 @@ const Header: React.FC = () => {
     <Navbar expand="lg" className={`${styles.customNavbar} ${bgColor === 'black' ? styles.bgBlack : ''}`}>
       <Navbar.Brand>
         <Link href="/" className={styles.navbarBrand}>
-          <Image src="/images/Ignyto_Logo.jpeg" alt="ASVAB WARRIORS" className={styles.navbarLogo} width={120} height={40} />
+          <Image
+            src="/images/Ignyto_Logo.jpeg"
+            alt="ASVAB WARRIORS"
+            className={styles.navbarLogo}
+            width={120}
+            height={40}
+          />
         </Link>
       </Navbar.Brand>
 
