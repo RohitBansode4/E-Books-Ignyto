@@ -1,4 +1,4 @@
-/* styles/LearningLibrary.module.css */
+
 
 .librarySection {
   padding: 4rem 2rem;
@@ -42,12 +42,13 @@
 }
 
 .cardContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  padding: 0 2rem;
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;           
+  justify-content: center;   
+  gap: 1rem;                 
+  padding: 0 1rem;           
 }
+
 
 .card {
   background: white;
@@ -73,22 +74,22 @@
 
 .icon {
   font-size: 2rem;
-  color: #1cd1d1; /* Turquoise color for icons */
-  background-color: #cff3f3; /* Background color of the circle */
-  padding: 0.75rem; /* Padding to make it circular around the icon */
-  border-radius: 50%; /* Makes it round */
-  display: flex; /* Flexbox to center the icon */
-  justify-content: center; /* Centers the icon horizontally */
-  align-items: center; /* Centers the icon vertically */
-  width: 3rem; /* Width of the circle */
-  height: 3rem; /* Height of the circle */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow around the circle */
+  color: #1cd1d1; 
+  background-color: #cff3f3; 
+  padding: 0.75rem; 
+  border-radius: 50%; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 3rem; 
+  height: 3rem; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
 }
 
 .cardTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1cd1d1; /* Turquoise color for title */
+  color: #1cd1d1; 
   margin: 0;
 }
 
@@ -114,7 +115,7 @@
   background-color: #4e5ac4;
 }
 
-/* 📱 Responsive: Stack cards vertically on smaller screens */
+
 @media (max-width: 768px) {
   .cardContainer {
     grid-template-columns: 1fr;
